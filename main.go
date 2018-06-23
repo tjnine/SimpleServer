@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func indexController(wr http.ResponseWriter, r *http.Request) {
+func indexController(rw http.ResponseWriter, r *http.Request) {
 	r.ParseForm()       //parse arguments, you have to call this by yourself...
 	fmt.Println(r.Form) // print info in server side
 	fmt.Println("path", r.URL.Path)
@@ -17,7 +17,12 @@ func indexController(wr http.ResponseWriter, r *http.Request) {
 		fmt.Println("key:", k)
 		fmt.Println("val:", strings.Join(v, ""))
 	}
-	fmt.Fprintf(wr, "A working net/http server using golangs' library") //send data to client side
+	fmt.Fprintf(rw, "Welcome to the IndexController of the application.") //send data to client side
+}
+
+func login(rw http.ResponseWriter, r *http.Request) {
+	// missing a bunch of code!
+	r.ParseForm()
 }
 
 func main() {
