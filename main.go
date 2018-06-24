@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"strings"
@@ -20,13 +21,22 @@ func indexController(rw http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(rw, "Welcome to the IndexController of the application.") //send data to client side
 }
 
-func login(rw http.ResponseWriter, r *http.Request) {
-	// missing a bunch of code!
-	r.ParseForm()
+func loginController(rw http.ResponseWriter, r *http.Request) {
+	fmt.Println("method:", r.Method) // get request method
+	if r.Method == "GET" {
+		t, _ := template.ParseFiles("login.gtpl")
+		t.Execute(rw, nil)
+	} else {
+		r.ParseForm()
+		//logic part of login
+		fmt.Println("username:", r.Form["username"])
+		fmt.Println("password:", r.Form["password"])
+	}
 }
 
 func main() {
 	http.HandleFunc("/", indexController)
+	http.HandleFunc("/login", loginController)
 	err := http.ListenAndServe(":9090", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
